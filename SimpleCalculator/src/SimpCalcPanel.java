@@ -8,7 +8,11 @@ import javax.swing.*;
  *         Part of project SimpleCalculator
  */
 
-public class SimpCalcPanel extends JPanel {
+public class SimpCalcPanel extends JPanel implements Runnable {
+    String leftOperand, rightOperand, mathAction, answer;
+    JTextField leftOperandBox = new JTextField(""); //todo rename this
+    JTextField mathActionBox = new JTextField("");
+    JTextField answerBox = new JTextField("");
 
     public SimpCalcPanel() {
         setLayout(null);
@@ -34,7 +38,6 @@ public class SimpCalcPanel extends JPanel {
         numButtons[7].setBounds(20, 260, 50, 50);
         numButtons[8].setBounds(75, 260, 50, 50);
         numButtons[9].setBounds(130, 260, 50, 50);
-
         //set all number buttons on, add all number buttons to the panel
         for (JButton numButton : numButtons) {
             numButton.setEnabled(true);
@@ -50,7 +53,6 @@ public class SimpCalcPanel extends JPanel {
         operatorButtons[5] = new JButton("*");
         operatorButtons[6] = new JButton("/");
         operatorButtons[7] = new JButton("=");
-
         //bounds and locations
         //top row, which includes ., ±, C, and +
         for (int x = 75; x< 295; x+=55) {
@@ -67,7 +69,51 @@ public class SimpCalcPanel extends JPanel {
             operatorButton.setEnabled(true);
             add(operatorButton);
         }
+        //LABELS FOR CALC AREA -----------------
+
+        answerBox.setHorizontalAlignment(JLabel.RIGHT);
+        answerBox.setBounds(50, 50, getWidth() - 100, 20);
+        answerBox.setEditable(false);
+        answerBox.setEnabled(true);
+        add(answerBox);
+
+
+        leftOperandBox.setHorizontalAlignment(JLabel.RIGHT);
+        leftOperandBox.setBounds(50, 30, getWidth() - 100, 20);
+        leftOperandBox.setEditable(false);
+        leftOperandBox.setEnabled(true);
+        add(leftOperandBox);
+
+
+        mathActionBox.setHorizontalAlignment(JLabel.RIGHT);
+        mathActionBox.setBounds(50, 10, getWidth() - 100, 20);
+        mathActionBox.setEditable(false);
+        mathActionBox.setEnabled(true);
+        add(mathActionBox);
+
+        //NUMBER BUTTON ACTIONS ------------------------
+        numButtons[0].addActionListener(e -> {
+            if (mathAction.equals("") && rightOperand.equals("")) {
+                leftOperand += "0";
+            } else if (!leftOperand.equals("") && !mathAction.equals("")) { //if mathAct and left are both not blank
+                rightOperand += "0";
+            }
+        });
 
     }
 
+    @Override
+    public void run() {
+        while (true) {
+            leftOperandBox.setText(leftOperand);
+            answerBox.setText(answer);
+            mathActionBox.setText(mathAction);
+            try {
+                Thread.sleep(35);
+            } catch (Exception exe) {
+                System.out.println("Issue with sleeping thread.");
+                System.exit(-1);
+            }
+        }
+    }
 }
