@@ -9,39 +9,63 @@ import javax.swing.*;
  */
 
 public class SimpCalcPanel extends JPanel {
-    JButton button = new JButton("Test");
 
     public SimpCalcPanel() {
         setLayout(null);
-        setSize(350, 300);
-        JButton[] numButtons = new JButton[10];
-        JButton[] operatorButtons = new JButton[4];
+        setSize(320, 350);
+        JButton[] numButtons = new JButton[10]; //holds all the number buttons, 0-9. Array index corresponds to number
+        JButton[] operatorButtons = new JButton[8]; //holds operators that affect numbers.
+        //NUMBER BUTTONS -------------------------
         //init all number buttons
         for (int i = 0; i < numButtons.length; i++) {
             numButtons[i] = new JButton("" + i);
         }
         //set the bounds of all number buttons
-        numButtons[0].setBounds(190, 100, 50, 160);
+        numButtons[0].setBounds(185, 150, 50, 160);
         //first row
-        numButtons[1].setBounds(20, 100, 50, 50);
-        numButtons[2].setBounds(75, 100, 50, 50);
-        numButtons[3].setBounds(130, 100, 50, 50);
+        numButtons[1].setBounds(20, 150, 50, 50);
+        numButtons[2].setBounds(75, 150, 50, 50);
+        numButtons[3].setBounds(130, 150, 50, 50);
         //second row
-        numButtons[4].setBounds(20, 155, 50, 50);
-        numButtons[5].setBounds(75, 155, 50, 50);
-        numButtons[6].setBounds(130, 155, 50, 50);
+        numButtons[4].setBounds(20, 205, 50, 50);
+        numButtons[5].setBounds(75, 205, 50, 50);
+        numButtons[6].setBounds(130, 205, 50, 50);
         //third row
-        numButtons[7].setBounds(20, 210, 50, 50);
-        numButtons[8].setBounds(75, 210, 50, 50);
-        numButtons[9].setBounds(130, 210, 50, 50);
+        numButtons[7].setBounds(20, 260, 50, 50);
+        numButtons[8].setBounds(75, 260, 50, 50);
+        numButtons[9].setBounds(130, 260, 50, 50);
 
-        //set all number buttons on
-        for (int i = 0; i < numButtons.length; i++) {
-            numButtons[i].setEnabled(true);
-        }
-        //add all number buttons to the panel
+        //set all number buttons on, add all number buttons to the panel
         for (JButton numButton : numButtons) {
+            numButton.setEnabled(true);
             add(numButton);
+        }
+        //OPERATOR BUTTONS -------------------------
+        //init
+        operatorButtons[0] = new JButton(".");
+        operatorButtons[1] = new JButton("±");
+        operatorButtons[2] = new JButton("C");
+        operatorButtons[3] = new JButton("+");
+        operatorButtons[4] = new JButton("-");
+        operatorButtons[5] = new JButton("*");
+        operatorButtons[6] = new JButton("/");
+        operatorButtons[7] = new JButton("=");
+
+        //bounds and locations
+        //top row, which includes ., ±, C, and +
+        for (int x = 75; x< 295; x+=55) {
+            operatorButtons[(x-75)/55].setBounds(x,95,50,50);
+        }
+        //includes -, *, /, =
+        operatorButtons[4].setBounds(240,150,50,50); // -
+        operatorButtons[5].setBounds(240,205,50,50); // *
+        operatorButtons[6].setBounds(240,260,50,50); // /
+        operatorButtons[7].setBounds(20,315,270,30); // =
+
+        //enable and add all operator buttons to panel
+        for (JButton operatorButton : operatorButtons) {
+            operatorButton.setEnabled(true);
+            add(operatorButton);
         }
 
     }
