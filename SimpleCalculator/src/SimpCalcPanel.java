@@ -17,6 +17,8 @@ public class SimpCalcPanel extends JPanel implements Runnable {
     public SimpCalcPanel() {
         setLayout(null);
         setSize(320, 350);
+        Thread t = new Thread(this);
+        t.start();
         JButton[] numButtons = new JButton[10]; //holds all the number buttons, 0-9. Array index corresponds to number
         JButton[] operatorButtons = new JButton[8]; //holds operators that affect numbers.
         //NUMBER BUTTONS -------------------------
@@ -83,7 +85,6 @@ public class SimpCalcPanel extends JPanel implements Runnable {
         entryBox.setEnabled(true);
         add(entryBox);
 
-
         mathActionBox.setHorizontalAlignment(JLabel.RIGHT);
         mathActionBox.setBounds(50, 10, getWidth() - 100, 20);
         mathActionBox.setEditable(false);
@@ -91,24 +92,61 @@ public class SimpCalcPanel extends JPanel implements Runnable {
         add(mathActionBox);
 
         //NUMBER BUTTON ACTIONS ------------------------
-        numButtons[0].addActionListener(e -> {
+        makeNumAction(numButtons, 0);
+        makeNumAction(numButtons, 1);
+        makeNumAction(numButtons, 2);
+        makeNumAction(numButtons, 3);
+        makeNumAction(numButtons, 4);
+        makeNumAction(numButtons, 5);
+        makeNumAction(numButtons, 6);
+        makeNumAction(numButtons, 7);
+        makeNumAction(numButtons, 8);
+        makeNumAction(numButtons, 9);
+
+        //CALC BUTTON ACTIONS
+        operatorButtons[0].addActionListener(e -> { // .
             if (mathAction.equals("") && rightOperand.equals("")) {
-                leftOperand += "0";
+                leftOperand += ".";
             } else if (!leftOperand.equals("") && !mathAction.equals("")) { //if mathAct and left are both not blank
-                rightOperand += "0";
+                rightOperand += ".";
             }
         });
 
+        operatorButtons[1].addActionListener(e -> {
+            leftOperand = "-" + leftOperand;
+        });
+
+        operatorButtons[2].addActionListener(e -> { //C
+            leftOperand = "";
+            rightOperand = "";
+            mathAction = "";
+            answer = "";
+        });
+
+
+
+
+
+    }
+
+    private void makeNumAction(JButton[] numButtons, int x) {
+        numButtons[x].addActionListener(e -> {
+            if (mathAction.equals("") && rightOperand.equals("")) {
+                leftOperand += "" + x;
+            } else if (!leftOperand.equals("") && !mathAction.equals("")) { //if mathAct and left are both not blank
+                rightOperand += "" + x;
+            }
+        });
     }
 
     @Override
     public void run() {
         while (true) {
-            entryBox.setText(leftOperand);
+            entryBox.setText(leftOperand + " " + mathAction + " " + rightOperand);
             answerBox.setText(answer);
             mathActionBox.setText(mathAction);
             try {
-                Thread.sleep(350);
+                Thread.sleep(100);
             } catch (Exception exe) {
                 System.out.println("Issue with sleeping thread.");
                 System.exit(-1);
