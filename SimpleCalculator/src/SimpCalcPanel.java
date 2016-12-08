@@ -9,8 +9,8 @@ import javax.swing.*;
  */
 
 public class SimpCalcPanel extends JPanel implements Runnable {
-    String leftOperand, rightOperand, mathAction, answer;
-    JTextField leftOperandBox = new JTextField(""); //todo rename this
+    String leftOperand = "", rightOperand = "", mathAction = "", answer = "";
+    JTextField entryBox = new JTextField("");
     JTextField mathActionBox = new JTextField("");
     JTextField answerBox = new JTextField("");
 
@@ -77,12 +77,11 @@ public class SimpCalcPanel extends JPanel implements Runnable {
         answerBox.setEnabled(true);
         add(answerBox);
 
-
-        leftOperandBox.setHorizontalAlignment(JLabel.RIGHT);
-        leftOperandBox.setBounds(50, 30, getWidth() - 100, 20);
-        leftOperandBox.setEditable(false);
-        leftOperandBox.setEnabled(true);
-        add(leftOperandBox);
+        entryBox.setHorizontalAlignment(JLabel.RIGHT);
+        entryBox.setBounds(50, 30, getWidth() - 100, 20);
+        entryBox.setEditable(false);
+        entryBox.setEnabled(true);
+        add(entryBox);
 
 
         mathActionBox.setHorizontalAlignment(JLabel.RIGHT);
@@ -92,7 +91,7 @@ public class SimpCalcPanel extends JPanel implements Runnable {
         add(mathActionBox);
 
         //NUMBER BUTTON ACTIONS ------------------------
-        numButtons[0].addActionListener(e -> { //todo put into method?
+        numButtons[0].addActionListener(e -> {
             if (mathAction.equals("") && rightOperand.equals("")) {
                 leftOperand += "0";
             } else if (!leftOperand.equals("") && !mathAction.equals("")) { //if mathAct and left are both not blank
@@ -105,11 +104,11 @@ public class SimpCalcPanel extends JPanel implements Runnable {
     @Override
     public void run() {
         while (true) {
-            leftOperandBox.setText(leftOperand);
+            entryBox.setText(leftOperand);
             answerBox.setText(answer);
             mathActionBox.setText(mathAction);
             try {
-                Thread.sleep(35);
+                Thread.sleep(350);
             } catch (Exception exe) {
                 System.out.println("Issue with sleeping thread.");
                 System.exit(-1);
