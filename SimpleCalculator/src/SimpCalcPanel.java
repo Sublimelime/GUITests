@@ -11,7 +11,6 @@ import javax.swing.*;
 public class SimpCalcPanel extends JPanel implements Runnable {
     String leftOperand = "", rightOperand = "", mathAction = "", answer = "";
     JTextField entryBox = new JTextField("");
-    JTextField mathActionBox = new JTextField("");
     JTextField answerBox = new JTextField("");
 
     public SimpCalcPanel() {
@@ -85,12 +84,6 @@ public class SimpCalcPanel extends JPanel implements Runnable {
         entryBox.setEnabled(true);
         add(entryBox);
 
-        mathActionBox.setHorizontalAlignment(JLabel.RIGHT);
-        mathActionBox.setBounds(50, 10, getWidth() - 100, 20);
-        mathActionBox.setEditable(false);
-        mathActionBox.setEnabled(true);
-        add(mathActionBox);
-
         //NUMBER BUTTON ACTIONS ------------------------
         makeNumAction(numButtons, 0);
         makeNumAction(numButtons, 1);
@@ -112,7 +105,7 @@ public class SimpCalcPanel extends JPanel implements Runnable {
             }
         });
 
-        operatorButtons[1].addActionListener(e -> {
+        operatorButtons[1].addActionListener(e -> { //+/-
             leftOperand = "-" + leftOperand;
         });
 
@@ -123,8 +116,29 @@ public class SimpCalcPanel extends JPanel implements Runnable {
             answer = "";
         });
 
+        operatorButtons[3].addActionListener(e -> {
+            if (mathAction.equals("") && rightOperand.equals("") && !leftOperand.equals("")) {
+                leftOperand += " + ";
+            } else if (!mathAction.equals("") && !leftOperand.equals("") && !rightOperand.equals("")) { //if pressing + again
+                //entryBox.setText(doCalc()+" + "; todo write calc process
+            }
+        });
 
+        operatorButtons[4].addActionListener(e -> { //minus
+            if (mathAction.equals("") && rightOperand.equals("") && !leftOperand.equals("")) {
+                leftOperand += " - ";
+            } else if (!mathAction.equals("") && !leftOperand.equals("") && !rightOperand.equals("")) { //if pressing + again
+                //entryBox.setText(doCalc()+" - "; todo write calc process
+            }
+        });
 
+        operatorButtons[5].addActionListener(e -> { //*
+            if (mathAction.equals("") && rightOperand.equals("") && !leftOperand.equals("")) {
+                leftOperand += " * ";
+            } else if (!mathAction.equals("") && !leftOperand.equals("") && !rightOperand.equals("")) { //if pressing + again
+                //entryBox.setText(doCalc()+" * "; todo write calc process
+            }
+        });
 
 
     }
@@ -144,7 +158,6 @@ public class SimpCalcPanel extends JPanel implements Runnable {
         while (true) {
             entryBox.setText(leftOperand + " " + mathAction + " " + rightOperand);
             answerBox.setText(answer);
-            mathActionBox.setText(mathAction);
             try {
                 Thread.sleep(100);
             } catch (Exception exe) {
