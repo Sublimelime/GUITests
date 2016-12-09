@@ -35,6 +35,24 @@ public class FinalCalcPanel extends JPanel implements Runnable {
             add(labels[i]);
         }
 
+        //TEXT FIELDS CODE ----------------
+        for (int i = 0; i < textFields.length; i++) { //init and set the label text for all text fields
+            if (i >= 2) {
+                textFields[i] = new JTextField();
+                textFields[i].setEditable(true);
+                textFields[i].setBounds(150, (i * 50) + 70, 150, 40);
+                textFields[i].setEnabled(true);
+                add(textFields[i]);
+            } else {
+                textFields[i] = new JTextField();
+                textFields[i].setEditable(true);
+                textFields[i].setBounds(150, (i * 50) + 20, 150, 40);
+                textFields[i].setEnabled(true);
+                add(textFields[i]);
+            }
+        }
+
+
 
     }
 
