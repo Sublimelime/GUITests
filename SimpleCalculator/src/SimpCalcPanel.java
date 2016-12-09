@@ -9,7 +9,7 @@ import javax.swing.*;
  */
 
 public class SimpCalcPanel extends JPanel implements Runnable {
-    String leftOperand = "", rightOperand = "", mathAction = "", answer = "";
+    String leftOperand = "", rightOperand = "", mathAction = "";
     JTextField entryBox = new JTextField("");
     JTextField answerBox = new JTextField("");
 
@@ -56,14 +56,14 @@ public class SimpCalcPanel extends JPanel implements Runnable {
         operatorButtons[7] = new JButton("=");
         //bounds and locations
         //top row, which includes ., ±, C, and +
-        for (int x = 75; x< 295; x+=55) {
-            operatorButtons[(x-75)/55].setBounds(x,95,50,50);
+        for (int x = 75; x < 295; x += 55) {
+            operatorButtons[(x - 75) / 55].setBounds(x, 95, 50, 50);
         }
         //includes -, *, /, =
-        operatorButtons[4].setBounds(240,150,50,50); // -
-        operatorButtons[5].setBounds(240,205,50,50); // *
-        operatorButtons[6].setBounds(240,260,50,50); // /
-        operatorButtons[7].setBounds(20,315,270,30); // =
+        operatorButtons[4].setBounds(240, 150, 50, 50); // -
+        operatorButtons[5].setBounds(240, 205, 50, 50); // *
+        operatorButtons[6].setBounds(240, 260, 50, 50); // /
+        operatorButtons[7].setBounds(20, 315, 270, 30); // =
 
         //enable and add all operator buttons to panel
         for (JButton operatorButton : operatorButtons) {
@@ -106,40 +106,79 @@ public class SimpCalcPanel extends JPanel implements Runnable {
         });
 
         operatorButtons[1].addActionListener(e -> { //+/-
-            leftOperand = "-" + leftOperand;
+            if (!leftOperand.equals("") && rightOperand.equals(""))
+                leftOperand = "-" + leftOperand;
+            else
+                rightOperand = "-" + rightOperand;
         });
 
-        operatorButtons[2].addActionListener(e -> { //C
+        operatorButtons[2].addActionListener(e -> { //C, reset everything
             leftOperand = "";
             rightOperand = "";
             mathAction = "";
-            answer = "";
+            answerBox.setText("");
         });
 
-        operatorButtons[3].addActionListener(e -> {
+        operatorButtons[3].addActionListener(e -> { //+
             if (mathAction.equals("") && rightOperand.equals("") && !leftOperand.equals("")) {
-                leftOperand += " + ";
+                mathAction = "+";
             } else if (!mathAction.equals("") && !leftOperand.equals("") && !rightOperand.equals("")) { //if pressing + again
-                //entryBox.setText(doCalc()+" + "; todo write calc process
+                doCalc(entryBox); //call to update the answer field
+                rightOperand = "";
+                mathAction = "+";
+                leftOperand = answerBox.getText();
+                entryBox.setText(doCalc(entryBox) + " + ");
+                answerBox.setText("");
             }
         });
 
         operatorButtons[4].addActionListener(e -> { //minus
             if (mathAction.equals("") && rightOperand.equals("") && !leftOperand.equals("")) {
-                leftOperand += " - ";
+                mathAction = "-";
             } else if (!mathAction.equals("") && !leftOperand.equals("") && !rightOperand.equals("")) { //if pressing + again
-                //entryBox.setText(doCalc()+" - "; todo write calc process
+                doCalc(entryBox); //call to update the answer field
+                rightOperand = "";
+                mathAction = "-";
+                leftOperand = answerBox.getText();
+                entryBox.setText(doCalc(entryBox) + " - ");
+                answerBox.setText("");
             }
         });
 
         operatorButtons[5].addActionListener(e -> { //*
             if (mathAction.equals("") && rightOperand.equals("") && !leftOperand.equals("")) {
-                leftOperand += " * ";
+                mathAction = "*";
             } else if (!mathAction.equals("") && !leftOperand.equals("") && !rightOperand.equals("")) { //if pressing + again
-                //entryBox.setText(doCalc()+" * "; todo write calc process
+                doCalc(entryBox); //call to update the answer field
+                rightOperand = "";
+                mathAction = "*";
+                leftOperand = answerBox.getText();
+                entryBox.setText(doCalc(entryBox) + " * ");
+                answerBox.setText("");
             }
         });
 
+        operatorButtons[6].addActionListener(e -> { // /
+            if (mathAction.equals("") && rightOperand.equals("") && !leftOperand.equals("")) {
+                mathAction = "/";
+            } else if (!mathAction.equals("") && !leftOperand.equals("") && !rightOperand.equals("")) { //if pressing + again
+                doCalc(entryBox); //call to update the answer field
+                rightOperand = "";
+                mathAction = "/";
+                leftOperand = answerBox.getText();
+                entryBox.setText(doCalc(entryBox) + " / ");
+                answerBox.setText("");
+            }
+        });
+
+        operatorButtons[7].addActionListener(e -> { // =
+            if (!mathAction.equals("") && !rightOperand.equals("") && !leftOperand.equals("")) {
+                answerBox.setText(doCalc(entryBox));
+                leftOperand = "";
+                rightOperand = "";
+                mathAction = "";
+            }
+        });
 
     }
 
@@ -153,11 +192,40 @@ public class SimpCalcPanel extends JPanel implements Runnable {
         });
     }
 
+    private String doCalc(JTextField entryBox) {
+        double finalAnswer = 0;
+        try {
+            String[] parsed = entryBox.getText().split("[ ]"); //creates an array of the first number, the math action, and the last number.
+            finalAnswer = 0;
+            switch (parsed[1]) { //aka, the math action
+                case "+":
+                    finalAnswer = Double.parseDouble(parsed[0]) + Double.parseDouble(parsed[2]); //num 1 + num 2
+                    answerBox.setText("" + finalAnswer);
+                    break;
+                case "-":
+                    finalAnswer = Double.parseDouble(parsed[0]) - Double.parseDouble(parsed[2]); //num 1 - num 2
+                    answerBox.setText("" + finalAnswer);
+                    break;
+                case "*":
+                    finalAnswer = Double.parseDouble(parsed[0]) * Double.parseDouble(parsed[2]); //num 1 * num 2
+                    answerBox.setText("" + finalAnswer);
+                    break;
+                case "/":
+                    finalAnswer = Double.parseDouble(parsed[0]) / Double.parseDouble(parsed[2]); //num 1 / num 2
+                    answerBox.setText("" + finalAnswer);
+                    break;
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Issue with calculation: " + e.getMessage() + "\nPlease correct and retry.");
+        }
+
+        return "" + finalAnswer;
+    }
+
     @Override
     public void run() {
         while (true) {
             entryBox.setText(leftOperand + " " + mathAction + " " + rightOperand);
-            answerBox.setText(answer);
             try {
                 Thread.sleep(100);
             } catch (Exception exe) {
