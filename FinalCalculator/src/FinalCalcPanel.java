@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.awt.event.ActionEvent;
 
 /**
  * Created on 12/5/2016, 2:16 PM
@@ -9,6 +10,10 @@ import javax.swing.*;
  */
 
 public class FinalCalcPanel extends JPanel implements Runnable {
+    JLabel[] labels = new JLabel[9];
+    JTextField[] textFields = new JTextField[8];
+    JComboBox<String> termsAmount;
+    JLabel answerLabel = new JLabel("");
 
     public FinalCalcPanel() {
         setLayout(null);
@@ -16,15 +21,13 @@ public class FinalCalcPanel extends JPanel implements Runnable {
         Thread t = new Thread(this);
         t.start();
 
-        JLabel[] labels = new JLabel[9];
-        JTextField[] textFields = new JTextField[8];
         //stuff for the combo box
         String[] choices = new String[6];
         for (int i = 1; i < choices.length; i++) { //init list of choices
             choices[i] = "" + i;
         }
-        JComboBox<String> termsAmount = new JComboBox<>(choices);
 
+        termsAmount = new JComboBox<>(choices);
         //LABELS CODE ------------------
         String[] labelStrings = {"Total term weight: ", "Final Weight: ", "Number of terms: ", "Grade wanted: ", "Term 1 grade: ",
                 "Term 2 grade: ", "Term 3 grade: ", "Term 4 grade: ", "Term 5 grade: "};
@@ -59,6 +62,7 @@ public class FinalCalcPanel extends JPanel implements Runnable {
         termsAmount.setSelectedItem("1");
         add(termsAmount);
 
+
         //BUTTONS CODE -----------------------------
         JButton calcButton = new JButton("Calculate");
         JButton clearButton = new JButton("Clear");
@@ -68,7 +72,18 @@ public class FinalCalcPanel extends JPanel implements Runnable {
         clearButton.setEnabled(true);
         clearButton.setBounds(20, 550, 200, 30);
         add(clearButton);
-        //todo add button actions
+
+        calcButton.addActionListener(e -> {
+            answerLabel.setText(""+doCalc(textFields,termsAmount));
+        });
+
+        clearButton.addActionListener(e -> {
+            for (int i = 0; i < textFields.length; i++) {
+                textFields[i].setText("0");
+            }
+            termsAmount.setSelectedItem("1");
+            answerLabel.setText("");
+        });
 
     }
 
