@@ -3,7 +3,7 @@
  *
  * @author Noah Morton
  *         Tully 7th period
- *         Part of project SimpleCalculator
+ *         Part of project FinalCalculator
  */
 
 public class Mainfile {

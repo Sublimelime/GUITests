@@ -6,7 +6,7 @@ import java.awt.*;
  *
  * @author Noah Morton
  *         Tully 7th period
- *         Part of project SimpleCalculator
+ *         Part of project FinalCalculator
  */
 
 public class FinalCalcFrame extends JFrame {

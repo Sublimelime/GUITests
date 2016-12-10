@@ -5,14 +5,14 @@ import javax.swing.*;
  *
  * @author Noah Morton
  *         Tully 7th period
- *         Part of project SimpleCalculator
+ *         Part of project FinalCalculator
  */
 
 public class FinalCalcPanel extends JPanel {
-    JLabel[] labels = new JLabel[9];
-    JTextField[] textFields = new JTextField[8];
-    JComboBox<String> termsAmount;
-    JLabel answerLabel = new JLabel("");
+    private final JLabel[] labels = new JLabel[9];
+    private final JTextField[] textFields = new JTextField[8];
+    private final JLabel answerLabel = new JLabel("");
+    private JComboBox<String> termsAmount;
 
     public FinalCalcPanel() {
         setLayout(null);
@@ -27,6 +27,10 @@ public class FinalCalcPanel extends JPanel {
             labels[i].setEnabled(true);
             add(labels[i]);
         }
+        //code for answerLabel
+        answerLabel.setEnabled(true);
+        answerLabel.setBounds(20, 600, 120, 40);
+        add(answerLabel);
 
         //TEXT FIELDS CODE ----------------
         for (int i = 0; i < textFields.length; i++) { //init and set the label text for all text fields
@@ -62,6 +66,7 @@ public class FinalCalcPanel extends JPanel {
         termsAmount.setSelectedItem("1"); //sets 1 term to be default
 
         termsAmount.addActionListener(e -> {
+            if (termsAmount.getSelectedIndex() == -1) termsAmount.setSelectedIndex(1); //sanity check
             for (int i = 0; i < textFields.length; i++) { //changes the text fields enable status based on selected terms
                 if (i > (2 + termsAmount.getSelectedIndex())) {
                     textFields[i].setEnabled(false);
@@ -70,7 +75,6 @@ public class FinalCalcPanel extends JPanel {
             }
         });
         add(termsAmount);
-
 
         //BUTTONS CODE -----------------------------
         JButton calcButton = new JButton("Calculate");
