@@ -8,7 +8,7 @@ import javax.swing.*;
  *         Part of project SimpleCalculator
  */
 
-public class FinalCalcPanel extends JPanel implements Runnable {
+public class FinalCalcPanel extends JPanel {
     JLabel[] labels = new JLabel[9];
     JTextField[] textFields = new JTextField[8];
     JComboBox<String> termsAmount;
@@ -17,8 +17,6 @@ public class FinalCalcPanel extends JPanel implements Runnable {
     public FinalCalcPanel() {
         setLayout(null);
         setSize(350, 650);
-        Thread t = new Thread(this);
-        t.start();
 
         //stuff for the combo box
         String[] choices = new String[6];
@@ -104,15 +102,4 @@ public class FinalCalcPanel extends JPanel implements Runnable {
         return 0;
     }
 
-    @Override
-    public void run() {
-        while (true) {
-            try {
-                Thread.sleep(100);
-            } catch (Exception exe) {
-                System.out.println("Issue with sleeping thread.");
-                System.exit(-1);
-            }
-        }
-    }
 }
