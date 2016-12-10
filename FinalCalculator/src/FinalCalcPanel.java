@@ -42,7 +42,6 @@ public class FinalCalcPanel extends JPanel implements Runnable {
                 textFields[i].setEditable(true);
                 textFields[i].setBounds(150, (i * 50) + 70, 150, 40);
                 textFields[i].setEnabled(true);
-                textFields[i].setText("0");
                 add(textFields[i]);
             } else {
                 textFields[i] = new JTextField();
@@ -51,18 +50,37 @@ public class FinalCalcPanel extends JPanel implements Runnable {
                 textFields[i].setEnabled(true);
                 add(textFields[i]);
             }
+            textFields[i].setText("0");
         }
         //COMBO BOX CODE ------------------------
-        termsAmount.setBounds(150,115,130,40);
+        termsAmount.setBounds(150, 115, 130, 40);
         termsAmount.setEnabled(true);
         termsAmount.setEditable(false);
         termsAmount.setSelectedItem("1");
         add(termsAmount);
 
         //BUTTONS CODE -----------------------------
+        JButton calcButton = new JButton("Calculate");
+        JButton clearButton = new JButton("Clear");
+        calcButton.setEnabled(true);
+        calcButton.setBounds(20, 500, 200, 30);
+        add(calcButton);
+        clearButton.setEnabled(true);
+        clearButton.setBounds(20, 550, 200, 30);
+        add(clearButton);
+        //todo add button actions
 
+    }
 
-
+    /**
+     * Calculates the result based on the text of the textFields, then returns it.
+     *
+     * @param textFields An array of all the text fields.
+     * @param comboBox   the drop down box containing the current amount of terms.
+     * @return double - The result of the calculation.
+     */
+    private double doCalc(JTextField[] textFields, JComboBox<String> comboBox) {
+        return 0;
     }
 
     @Override
