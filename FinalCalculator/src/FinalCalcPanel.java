@@ -12,7 +12,7 @@ public class FinalCalcPanel extends JPanel implements Runnable {
 
     public FinalCalcPanel() {
         setLayout(null);
-        setSize(350, 550);
+        setSize(350, 650);
         Thread t = new Thread(this);
         t.start();
 
@@ -23,7 +23,7 @@ public class FinalCalcPanel extends JPanel implements Runnable {
         for (int i = 1; i < choices.length; i++) { //init list of choices
             choices[i] = "" + i;
         }
-        JComboBox<String> dropDown = new JComboBox<>(choices);
+        JComboBox<String> termsAmount = new JComboBox<>(choices);
 
         //LABELS CODE ------------------
         String[] labelStrings = {"Total term weight: ", "Final Weight: ", "Number of terms: ", "Grade wanted: ", "Term 1 grade: ",
@@ -42,6 +42,7 @@ public class FinalCalcPanel extends JPanel implements Runnable {
                 textFields[i].setEditable(true);
                 textFields[i].setBounds(150, (i * 50) + 70, 150, 40);
                 textFields[i].setEnabled(true);
+                textFields[i].setText("0");
                 add(textFields[i]);
             } else {
                 textFields[i] = new JTextField();
@@ -51,6 +52,14 @@ public class FinalCalcPanel extends JPanel implements Runnable {
                 add(textFields[i]);
             }
         }
+        //COMBO BOX CODE ------------------------
+        termsAmount.setBounds(150,115,130,40);
+        termsAmount.setEnabled(true);
+        termsAmount.setEditable(false);
+        termsAmount.setSelectedItem("1");
+        add(termsAmount);
+
+        //BUTTONS CODE -----------------------------
 
 
 
