@@ -1,5 +1,4 @@
 import javax.swing.*;
-import java.awt.event.ActionEvent;
 
 /**
  * Created on 12/5/2016, 2:16 PM
@@ -74,7 +73,7 @@ public class FinalCalcPanel extends JPanel implements Runnable {
         add(clearButton);
 
         calcButton.addActionListener(e -> {
-            answerLabel.setText(""+doCalc(textFields,termsAmount));
+            answerLabel.setText("" + doCalc(textFields, termsAmount));
         });
 
         clearButton.addActionListener(e -> {
@@ -95,6 +94,13 @@ public class FinalCalcPanel extends JPanel implements Runnable {
      * @return double - The result of the calculation.
      */
     private double doCalc(JTextField[] textFields, JComboBox<String> comboBox) {
+        double termAverage = 0;
+        for (int i = 3; i <= (termsAmount.getSelectedIndex()) + 2; i++) {
+            termAverage += Double.parseDouble(textFields[i].getText());
+        }
+        termAverage = termAverage / termsAmount.getSelectedIndex();
+
+
         return 0;
     }
 
