@@ -18,18 +18,11 @@ public class FinalCalcPanel extends JPanel {
         setLayout(null);
         setSize(350, 650);
 
-        //stuff for the combo box
-        String[] choices = new String[6];
-        for (int i = 1; i < choices.length; i++) { //init list of choices
-            choices[i] = "" + i;
-        }
-
-        termsAmount = new JComboBox<>(choices);
         //LABELS CODE ------------------
         String[] labelStrings = {"Total term weight: ", "Final Weight: ", "Number of terms: ", "Grade wanted: ", "Term 1 grade: ",
                 "Term 2 grade: ", "Term 3 grade: ", "Term 4 grade: ", "Term 5 grade: "};
         for (int i = 0; i < labels.length; i++) { //init and set the label text for all labels
-            labels[i] = new JLabel(labelStrings[i]);
+            labels[i] = new JLabel(labelStrings[i]); //defines them off of the array
             labels[i].setBounds(10, (i * 50) + 20, 150, 40);
             labels[i].setEnabled(true);
             add(labels[i]);
@@ -37,26 +30,45 @@ public class FinalCalcPanel extends JPanel {
 
         //TEXT FIELDS CODE ----------------
         for (int i = 0; i < textFields.length; i++) { //init and set the label text for all text fields
-            if (i >= 2) {
+            if (i >= 2) { //this if/else is used so the for loop skips a space for the combo box.
                 textFields[i] = new JTextField();
                 textFields[i].setEditable(true);
                 textFields[i].setBounds(150, (i * 50) + 70, 150, 40);
-                textFields[i].setEnabled(true);
+                textFields[i].setEnabled(false);
                 add(textFields[i]);
             } else {
                 textFields[i] = new JTextField();
                 textFields[i].setEditable(true);
                 textFields[i].setBounds(150, (i * 50) + 20, 150, 40);
-                textFields[i].setEnabled(true);
+                textFields[i].setEnabled(false);
                 add(textFields[i]);
             }
-            textFields[i].setText("0");
+            textFields[i].setText("0"); //set them all to 0 to start
         }
+        for (int i = 0; i < 4; i++) {//the first box and other boxes should start enabled, because the dropdown starts on 1
+            textFields[i].setEnabled(true);
+        }
+
         //COMBO BOX CODE ------------------------
+        String[] choices = new String[6];
+        for (int i = 1; i < choices.length; i++) { //init list of choices
+            choices[i] = "" + i;
+        }
+
+        termsAmount = new JComboBox<>(choices);
         termsAmount.setBounds(150, 115, 130, 40);
         termsAmount.setEnabled(true);
         termsAmount.setEditable(false);
-        termsAmount.setSelectedItem("1");
+        termsAmount.setSelectedItem("1"); //sets 1 term to be default
+
+        termsAmount.addActionListener(e -> {
+            for (int i = 0; i < textFields.length; i++) { //changes the text fields enable status based on selected terms
+                if (i > (2 + termsAmount.getSelectedIndex())) {
+                    textFields[i].setEnabled(false);
+                } else
+                    textFields[i].setEnabled(true);
+            }
+        });
         add(termsAmount);
 
 
@@ -70,13 +82,11 @@ public class FinalCalcPanel extends JPanel {
         clearButton.setBounds(20, 550, 200, 30);
         add(clearButton);
 
-        calcButton.addActionListener(e -> {
-            answerLabel.setText("" + doCalc(textFields, termsAmount));
-        });
+        calcButton.addActionListener(e -> answerLabel.setText("" + doCalc(textFields, termsAmount)));
 
-        clearButton.addActionListener(e -> {
-            for (int i = 0; i < textFields.length; i++) {
-                textFields[i].setText("0");
+        clearButton.addActionListener(e -> { //reset all editable fields
+            for (JTextField textField : textFields) {
+                textField.setText("0");
             }
             termsAmount.setSelectedItem("1");
             answerLabel.setText("");
@@ -93,10 +103,10 @@ public class FinalCalcPanel extends JPanel {
      */
     private double doCalc(JTextField[] textFields, JComboBox<String> comboBox) {
         double termAverage = 0;
-        for (int i = 3; i <= (termsAmount.getSelectedIndex()) + 2; i++) {
+        for (int i = 3; i <= (termsAmount.getSelectedIndex()) + 2; i++) { //only calculate based on selected # of terms
             termAverage += Double.parseDouble(textFields[i].getText());
         }
-        termAverage = termAverage / termsAmount.getSelectedIndex();
+        termAverage /= termsAmount.getSelectedIndex(); //divide the total by the amount of terms.
 
 
         return 0;
