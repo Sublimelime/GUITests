@@ -29,7 +29,7 @@ public class FinalCalcPanel extends JPanel {
         }
         //code for answerLabel
         answerLabel.setEnabled(true);
-        answerLabel.setBounds(20, 600, 120, 40);
+        answerLabel.setBounds(20, 600, 300, 40);
         add(answerLabel);
 
         //TEXT FIELDS CODE ----------------
@@ -86,7 +86,7 @@ public class FinalCalcPanel extends JPanel {
         clearButton.setBounds(20, 550, 200, 30);
         add(clearButton);
 
-        calcButton.addActionListener(e -> answerLabel.setText("" + doCalc(textFields, termsAmount)));
+        calcButton.addActionListener(e -> answerLabel.setText("The score you need is: " + doCalc(textFields)));
 
         clearButton.addActionListener(e -> { //reset all editable fields
             for (JTextField textField : textFields) {
@@ -102,18 +102,19 @@ public class FinalCalcPanel extends JPanel {
      * Calculates the result based on the text of the textFields, then returns it.
      *
      * @param textFields An array of all the text fields.
-     * @param comboBox   the drop down box containing the current amount of terms.
      * @return double - The result of the calculation.
      */
-    private double doCalc(JTextField[] textFields, JComboBox<String> comboBox) {
+    private double doCalc(JTextField[] textFields) {
         double termAverage = 0;
         for (int i = 3; i <= (termsAmount.getSelectedIndex()) + 2; i++) { //only calculate based on selected # of terms
             termAverage += Double.parseDouble(textFields[i].getText());
         }
         termAverage /= termsAmount.getSelectedIndex(); //divide the total by the amount of terms.
 
+        //calculate the grade needed on the final to get the requested score
+        return (Double.parseDouble(textFields[2].getText()) / Double.parseDouble(textFields[1].getText()))
+                - (termAverage * Double.parseDouble(textFields[0].getText()));
 
-        return 0;
     }
 
 }
