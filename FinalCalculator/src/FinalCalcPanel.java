@@ -110,10 +110,12 @@ public class FinalCalcPanel extends JPanel {
             termAverage += Double.parseDouble(textFields[i].getText());
         }
         termAverage /= termsAmount.getSelectedIndex(); //divide the total by the amount of terms.
-
         //calculate the grade needed on the final to get the requested score
-        return (Double.parseDouble(textFields[2].getText()) / Double.parseDouble(textFields[1].getText()))
-                - (termAverage * Double.parseDouble(textFields[0].getText()));
+        double semester = Double.parseDouble(textFields[2].getText());
+        double finalWeight = Double.parseDouble(textFields[1].getText()) / 100;
+        double termWeight = Double.parseDouble(textFields[0].getText()) / 100;
+
+        return (semester - (termAverage * termWeight)) / finalWeight;
 
     }
 
