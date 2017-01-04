@@ -12,7 +12,7 @@ public class RolodexPanel extends JPanel {
 
     public RolodexPanel() {
         setLayout(null);
-        setSize(350, 650);
+        setSize(650, 650);
 
     }
 
