@@ -48,4 +48,9 @@ public class Entry {
     public void setPhoneNum(long phoneNum) {
         this.phoneNum = phoneNum;
     }
+
+    @Override
+    public String toString() {
+        return lastName + ", " + firstName;
+    }
 }
