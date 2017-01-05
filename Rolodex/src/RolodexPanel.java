@@ -13,6 +13,7 @@ public class RolodexPanel extends JPanel {
 
     private final JLabel[] labels = new JLabel[4];
     private final JTextField[] textFields = new JTextField[4];
+    private final JButton[] buttons = new JButton[4];
     private ArrayList<Entry> entries = new ArrayList<>();
     private JList list = new JList();
 
@@ -47,6 +48,24 @@ public class RolodexPanel extends JPanel {
         list.setListData(entries.toArray());
         add(list);
 
+        /* BUTTON CODE ################################################ */ //todo fix display issues
+        String[] names = {"Save Changes", "Delete contact", "Save as new", "Make new, wipe"};
+        for (int i = 0; i < buttons.length; i++) {
+            buttons[i] = new JButton(names[i]);
+            add(buttons[i]);
+            buttons[i].setEnabled(true);
+            buttons[i].setVisible(false);
+        }
+        buttons[0].setBounds(2 * getWidth() / 2, 2 * getHeight() / 3, buttons[0].getText().length(), 30);
+        buttons[1].setBounds(2 * getWidth() / 2, (2 * getHeight() / 3) + 50, buttons[1].getText().length(), 30);
+        buttons[2].setBounds(2 * getWidth() / 2, 2 * getHeight() / 3, buttons[2].getText().length(), 30);
+        buttons[3].setBounds(2 * getWidth() / 2, (2 * getHeight() / 3) + 50, buttons[3].getText().length(), 30);
+
+        buttons[2].setVisible(true); //the initial screen, with save as new and make new, wipe shown
+        buttons[3].setVisible(true);
+        for (int i = 0; i < buttons.length; i++) {
+            add(buttons[i]);
+        }
 
     }
 
