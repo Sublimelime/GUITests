@@ -56,16 +56,32 @@ public class RolodexPanel extends JPanel {
             buttons[i].setEnabled(true);
             buttons[i].setVisible(false);
         }
-        buttons[0].setBounds(2 * getWidth() / 2, 2 * getHeight() / 3, buttons[0].getText().length(), 30);
-        buttons[1].setBounds(2 * getWidth() / 2, (2 * getHeight() / 3) + 50, buttons[1].getText().length(), 30);
-        buttons[2].setBounds(2 * getWidth() / 2, 2 * getHeight() / 3, buttons[2].getText().length(), 30);
-        buttons[3].setBounds(2 * getWidth() / 2, (2 * getHeight() / 3) + 50, buttons[3].getText().length(), 30);
-
+        buttons[0].setBounds((getWidth() / 3) + 50, 2 * getHeight() / 3, buttons[0].getText().length() * 12, 30);
+        buttons[1].setBounds((getWidth() / 3) + 50, (2 * getHeight() / 3) + 50, buttons[1].getText().length() * 12, 30);
+        buttons[2].setBounds((getWidth() / 3) + 50, 2 * getHeight() / 3, buttons[2].getText().length() * 12, 30);
+        buttons[3].setBounds((getWidth() / 3) + 50, (2 * getHeight() / 3) + 50, buttons[3].getText().length() * 12, 30);
         buttons[2].setVisible(true); //the initial screen, with save as new and make new, wipe shown
         buttons[3].setVisible(true);
         for (int i = 0; i < buttons.length; i++) {
             add(buttons[i]);
         }
+
+        buttons[0].addActionListener(e -> { // Save changes
+            entries.get(list.getSelectedIndex()).setFirstName(textFields[0].getText()); //saves the first name into the contact from the box
+            entries.get(list.getSelectedIndex()).setLastName(textFields[1].getText());
+            entries.get(list.getSelectedIndex()).setAddress(textFields[2].getText());
+            entries.get(list.getSelectedIndex()).setPhoneNum(Long.parseLong(textFields[3].getText()));
+
+            toggleButtonLayout();
+        });
+
+        buttons[1].addActionListener(e -> { // Delete contact
+            entries.remove(list.getSelectedIndex()); //Removes the contact from the entries list
+            list.setListData(entries.toArray()); //refresh list
+
+            toggleButtonLayout();
+        });
+        //todo add actions for other two buttons
 
     }
 
@@ -73,7 +89,12 @@ public class RolodexPanel extends JPanel {
      * Toggles the display of the 4 buttons to create different screens
      */
     private void toggleButtonLayout() {
-        //todo make toggle between save/delete buttons and save/new
+        for (int i = 0; i < textFields.length; i++) { //wipe all the boxes
+            textFields[i].setText("");
+        }
+        buttons[0].setEnabled(!buttons[0].isEnabled());
+        buttons[1].setEnabled(!buttons[1].isEnabled());
+        buttons[2].setEnabled(!buttons[2].isEnabled());
+        buttons[3].setEnabled(!buttons[3].isEnabled());
     }
-
 }
