@@ -7,8 +7,8 @@
  */
 
 public class Entry {
-    String firstName, lastName, address;
-    long phoneNum;
+    private String firstName, lastName, address;
+    private long phoneNum;
 
     public Entry(String firstName, String lastName, String address, long phoneNum) {
         this.firstName = firstName;

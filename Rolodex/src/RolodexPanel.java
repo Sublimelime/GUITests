@@ -9,6 +9,7 @@ import java.util.ArrayList;
  *         Part of project Rolodex
  */
 
+@SuppressWarnings("unchecked")
 public class RolodexPanel extends JPanel {
 
     private final JLabel[] labels = new JLabel[4];
@@ -48,6 +49,19 @@ public class RolodexPanel extends JPanel {
         list.setListData(entries.toArray());
         add(list);
 
+        list.addListSelectionListener(e -> {
+            if (list.getSelectedIndex() != -1) {
+                setButtonLayout(1);
+                wipeBoxes();
+                textFields[0].setText(entries.get(list.getSelectedIndex()).getFirstName()); //set first name
+                textFields[1].setText(entries.get(list.getSelectedIndex()).getLastName()); //set last name
+                textFields[2].setText(entries.get(list.getSelectedIndex()).getAddress()); //set address
+                textFields[3].setText("" + entries.get(list.getSelectedIndex()).getPhoneNum()); //set phone number
+            } else {
+                setButtonLayout(2);
+            }
+        });
+
         /* BUTTON CODE ################################################ */ //todo fix display issues
         String[] names = {"Save Changes", "Delete contact", "Save as new", "Make new, wipe"};
         for (int i = 0; i < buttons.length; i++) {
@@ -60,10 +74,9 @@ public class RolodexPanel extends JPanel {
         buttons[1].setBounds((getWidth() / 3) + 50, (2 * getHeight() / 3) + 50, buttons[1].getText().length() * 12, 30);
         buttons[2].setBounds((getWidth() / 3) + 50, 2 * getHeight() / 3, buttons[2].getText().length() * 12, 30);
         buttons[3].setBounds((getWidth() / 3) + 50, (2 * getHeight() / 3) + 50, buttons[3].getText().length() * 12, 30);
-        buttons[2].setVisible(true); //the initial screen, with save as new and make new, wipe shown
-        buttons[3].setVisible(true);
-        for (int i = 0; i < buttons.length; i++) {
-            add(buttons[i]);
+        setButtonLayout(2);
+        for (JButton button : buttons) {
+            add(button);
         }
 
         buttons[0].addActionListener(e -> { // Save changes
@@ -71,30 +84,59 @@ public class RolodexPanel extends JPanel {
             entries.get(list.getSelectedIndex()).setLastName(textFields[1].getText());
             entries.get(list.getSelectedIndex()).setAddress(textFields[2].getText());
             entries.get(list.getSelectedIndex()).setPhoneNum(Long.parseLong(textFields[3].getText()));
-
-            toggleButtonLayout();
+            list.setListData(entries.toArray()); //sync changes
+            list.setSelectedIndex(-1);
+            wipeBoxes();
+            setButtonLayout(2); //this switches back to the main buttons.
         });
 
         buttons[1].addActionListener(e -> { // Delete contact
             entries.remove(list.getSelectedIndex()); //Removes the contact from the entries list
             list.setListData(entries.toArray()); //refresh list
-
-            toggleButtonLayout();
+            list.setSelectedIndex(-1); //Un-select
+            wipeBoxes();
+            setButtonLayout(2);
         });
-        //todo add actions for other two buttons
+        buttons[2].addActionListener(e -> { // Save as new
+            entries.add(new Entry(textFields[0].getText(), textFields[1].getText(), textFields[2].getText(), Long.parseLong(textFields[3].getText())));
+            list.setListData(entries.toArray()); //refresh list
+            wipeBoxes();
+            list.setSelectedIndex(-1); //Un-select
+            setButtonLayout(2);
+        });
+        buttons[3].addActionListener(e -> { // Make new, wipe
+            wipeBoxes();
+            list.setListData(entries.toArray()); //sync changes
+            setButtonLayout(2);
+        });
 
     }
 
     /**
-     * Toggles the display of the 4 buttons to create different screens
+     * Toggles the display of the 4 buttons to create different screens.
+     * 2 : Tools for making a new contact.
+     * 1 : Tools for editing/deleting a contact.
      */
-    private void toggleButtonLayout() {
-        for (int i = 0; i < textFields.length; i++) { //wipe all the boxes
-            textFields[i].setText("");
+    private void setButtonLayout(int mode) {
+        if (mode == 1) {
+            buttons[0].setVisible(true);
+            buttons[1].setVisible(true);
+            buttons[2].setVisible(false);
+            buttons[3].setVisible(false);
+        } else if (mode == 2) {
+            buttons[0].setVisible(false);
+            buttons[1].setVisible(false);
+            buttons[2].setVisible(true);
+            buttons[3].setVisible(true);
         }
-        buttons[0].setEnabled(!buttons[0].isEnabled());
-        buttons[1].setEnabled(!buttons[1].isEnabled());
-        buttons[2].setEnabled(!buttons[2].isEnabled());
-        buttons[3].setEnabled(!buttons[3].isEnabled());
+    }
+
+    /**
+     * Wipes all the text fields.
+     */
+    private void wipeBoxes() {
+        for (JTextField textField : textFields) { //wipe all the boxes
+            textField.setText("");
+        }
     }
 }
