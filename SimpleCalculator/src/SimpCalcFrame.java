@@ -1,15 +1,18 @@
-import javax.swing.*;
-import java.awt.*;
+
+import java.awt.Dimension;
+import java.awt.Insets;
+import javax.swing.JFrame;
+import javax.swing.WindowConstants;
 
 /**
  * Created on 12/5/2016, 2:16 PM
  *
  * @author Noah Morton
- *         Tully 7th period
- *         Part of project SimpleCalculator
+ * Tully 7th period
+ * Part of project SimpleCalculator
  */
-
 public class SimpCalcFrame extends JFrame {
+
     public SimpCalcFrame() {
 
         super("Simple Calculator");

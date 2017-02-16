@@ -1,14 +1,15 @@
+
 import javax.swing.*;
 
 /**
  * Created on 12/5/2016, 2:16 PM
  *
  * @author Noah Morton
- *         Tully 7th period
- *         Part of project SimpleCalculator
+ * Tully 7th period
+ * Part of project SimpleCalculator
  */
-
 public class SimpCalcPanel extends JPanel implements Runnable {
+
     String leftOperand = "", rightOperand = "", mathAction = "";
     JTextField entryBox = new JTextField("");
     JTextField answerBox = new JTextField("");
@@ -98,6 +99,12 @@ public class SimpCalcPanel extends JPanel implements Runnable {
 
         //CALC BUTTON ACTIONS
         operatorButtons[0].addActionListener(e -> { // .
+            if (leftOperand.contains(".")) {
+                return;
+            } else if (rightOperand.contains(".")) {
+                return;
+            }
+
             if (mathAction.equals("") && rightOperand.equals("")) {
                 leftOperand += ".";
             } else if (!leftOperand.equals("") && !mathAction.equals("")) { //if mathAct and left are both not blank
@@ -106,10 +113,20 @@ public class SimpCalcPanel extends JPanel implements Runnable {
         });
 
         operatorButtons[1].addActionListener(e -> { //+/-
-            if (!leftOperand.equals("") && rightOperand.equals(""))
+            //remove existing negative
+            if (leftOperand.contains("-")) {
+                leftOperand = leftOperand.replace("-", "");
+                return;
+            } else if (rightOperand.contains("-")) {
+                rightOperand = rightOperand.replace("-", "");
+                return;
+            }
+
+            if (!leftOperand.equals("") && rightOperand.equals("")) {
                 leftOperand = "-" + leftOperand;
-            else
+            } else {
                 rightOperand = "-" + rightOperand;
+            }
         });
 
         operatorButtons[2].addActionListener(e -> { //C, reset everything
