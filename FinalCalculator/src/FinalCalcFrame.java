@@ -1,18 +1,21 @@
-import javax.swing.*;
-import java.awt.*;
+
+import java.awt.Dimension;
+import java.awt.Insets;
+import javax.swing.JFrame;
+import javax.swing.WindowConstants;
 
 /**
  * Created on 12/5/2016, 2:16 PM
  *
  * @author Noah Morton
- *         Tully 7th period
- *         Part of project FinalCalculator
+ * Tully 7th period
+ * Part of project FinalCalculator
  */
-
 public class FinalCalcFrame extends JFrame {
+
     public FinalCalcFrame() {
 
-        super("Final Calculator");
+        super("Final Calculator*");
 
         // Sets the close button to exit the program
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);

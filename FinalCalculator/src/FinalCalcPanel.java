@@ -1,14 +1,15 @@
+
 import javax.swing.*;
 
 /**
  * Created on 12/5/2016, 2:16 PM
  *
  * @author Noah Morton
- *         Tully 7th period
- *         Part of project FinalCalculator
+ * Tully 7th period
+ * Part of project FinalCalculator
  */
-
 public class FinalCalcPanel extends JPanel {
+
     private final JLabel[] labels = new JLabel[9];
     private final JTextField[] textFields = new JTextField[8];
     private final JLabel answerLabel = new JLabel("");
@@ -20,7 +21,7 @@ public class FinalCalcPanel extends JPanel {
 
         //LABELS CODE ------------------
         String[] labelStrings = {"Total term weight: ", "Final Weight: ", "Number of terms: ", "Grade wanted: ", "Term 1 grade: ",
-                "Term 2 grade: ", "Term 3 grade: ", "Term 4 grade: ", "Term 5 grade: "};
+            "Term 2 grade: ", "Term 3 grade: ", "Term 4 grade: ", "Term 5 grade: "};
         for (int i = 0; i < labels.length; i++) { //init and set the label text for all labels
             labels[i] = new JLabel(labelStrings[i]); //defines them off of the array
             labels[i].setBounds(10, (i * 50) + 20, 150, 40);
@@ -66,12 +67,16 @@ public class FinalCalcPanel extends JPanel {
         termsAmount.setSelectedItem("1"); //sets 1 term to be default
 
         termsAmount.addActionListener(e -> {
-            if (termsAmount.getSelectedIndex() == -1) termsAmount.setSelectedIndex(1); //sanity check
+            if (termsAmount.getSelectedIndex() == -1) {
+                termsAmount.setSelectedIndex(1); //sanity check
+            }
             for (int i = 0; i < textFields.length; i++) { //changes the text fields enable status based on selected terms
                 if (i > (2 + termsAmount.getSelectedIndex())) {
                     textFields[i].setEnabled(false);
-                } else
+                    textFields[i].setText("");
+                } else {
                     textFields[i].setEnabled(true);
+                }
             }
         });
         add(termsAmount);

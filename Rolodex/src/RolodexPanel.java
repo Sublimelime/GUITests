@@ -1,14 +1,15 @@
-import javax.swing.*;
+
 import java.util.ArrayList;
+import java.util.Collections;
+import javax.swing.*;
 
 /**
  * Created on 12/11/2016, 2:16 PM
  *
  * @author Noah Morton
- *         Tully 7th period
- *         Part of project Rolodex
+ * Tully 7th period
+ * Part of project Rolodex
  */
-
 @SuppressWarnings("unchecked")
 public class RolodexPanel extends JPanel {
 
@@ -84,6 +85,8 @@ public class RolodexPanel extends JPanel {
             entries.get(list.getSelectedIndex()).setLastName(textFields[1].getText());
             entries.get(list.getSelectedIndex()).setAddress(textFields[2].getText());
             entries.get(list.getSelectedIndex()).setPhoneNum(Long.parseLong(textFields[3].getText()));
+            Collections.sort(entries);
+            Collections.reverse(entries);
             list.setListData(entries.toArray()); //sync changes
             list.setSelectedIndex(-1);
             wipeBoxes();
@@ -92,6 +95,8 @@ public class RolodexPanel extends JPanel {
 
         buttons[1].addActionListener(e -> { // Delete contact
             entries.remove(list.getSelectedIndex()); //Removes the contact from the entries list
+            Collections.sort(entries);
+            Collections.reverse(entries);
             list.setListData(entries.toArray()); //refresh list
             list.setSelectedIndex(-1); //Un-select
             wipeBoxes();
@@ -99,6 +104,8 @@ public class RolodexPanel extends JPanel {
         });
         buttons[2].addActionListener(e -> { // Save as new
             entries.add(new Entry(textFields[0].getText(), textFields[1].getText(), textFields[2].getText(), Long.parseLong(textFields[3].getText())));
+            Collections.sort(entries);
+            Collections.reverse(entries);
             list.setListData(entries.toArray()); //refresh list
             wipeBoxes();
             list.setSelectedIndex(-1); //Un-select
@@ -106,6 +113,9 @@ public class RolodexPanel extends JPanel {
         });
         buttons[3].addActionListener(e -> { // Make new, wipe
             wipeBoxes();
+            Collections.sort(entries);
+            Collections.reverse(entries);
+
             list.setListData(entries.toArray()); //sync changes
             setButtonLayout(2);
         });
